@@ -730,7 +730,7 @@ VIEWS.vote=function(root){
       '<button class="mini" data-a="back-role" style="align-self:flex-start">ย้อนกลับ</button></div>'}
     else if(st.step==='confirm'){var tm=TEAMS.filter(function(t){return t.id===st.pick})[0];h='<div class="panel confirm"><p class="sub">ยืนยันโหวตให้</p><div class="big">ทีม'+tm.name+'</div>'+errBox()+'<p class="rules">โหวตแล้วแก้ไขไม่ได้</p>'+
       '<button class="plank p-yellow holes" data-a="send">ยืนยันโหวต</button><button class="btn alt" data-a="back-pick">เลือกใหม่</button></div>'}
-    root.innerHTML='<section class="vote">'+h+'</section>';
+    root.innerHTML='<section class="vote">'+h+'<a class="btn alt" href="#admin" data-go="admin" style="align-self:center;text-decoration:none;margin-top:18px;display:inline-block">🔑 ห้องผู้ควบคุม</a></section>';
     var inp=$('#nick',root);if(inp&&st.step==='name'){inp.addEventListener('keydown',function(e){if(e.key==='Enter')act('name')})}
   }
   async function act(a,el){
@@ -777,6 +777,7 @@ VIEWS.admin=function(root){
     '<section class="panel"><div class="row"><h2>ความคืบหน้า</h2><span class="chip" id="syncChip"><i></i><span></span></span></div><div class="grid2" id="roles"></div><p id="loadnote" class="sub" hidden></p></section>'+
     '<section class="panel"><div class="row"><h2>คะแนน</h2><button class="mini" id="eye">แสดงตัวเลข</button></div><div id="score"></div><div id="tie"></div></section>'+
     '<section class="panel"><h2>ควบคุมจอโปรเจคเตอร์</h2><p id="scrState" class="num" style="margin:6px 0 12px"></p><div class="btns">'+
+      '<a class="btn" href="#screen" data-go="screen" style="text-decoration:none;display:inline-block">เปิดหน้าจอโปรเจคเตอร์</a>'+
       '<button class="btn" id="bAdv">เริ่มเฉลย</button><button class="btn alt" id="bBack">ย้อน 1 ขั้น</button><button class="btn alt" id="bChart">กลับไปหน้ากราฟ</button>'+
       '<button class="btn alt" id="bHide">ซ่อนความสูงแท่ง</button><button class="btn alt" id="bPerm">สลับตำแหน่งแท่ง</button><button class="btn alt" id="bOpen">ปิดรับโหวต</button></div>'+
       '<p style="margin-top:10px;font-size:14px;color:var(--ink-soft)">บนจอโปรเจคเตอร์กด Space หรือ → เพื่อไปขั้นถัดไป · ← ย้อน · Esc กลับหน้ากราฟ · F เต็มจอ · S เปิด/ปิดเสียง</p></section>'+
