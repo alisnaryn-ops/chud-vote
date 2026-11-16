@@ -438,7 +438,7 @@ var FB=!!(CFG&&CFG.apiKey&&CFG.databaseURL&&/^https?:\/\//.test(String(CFG.datab
 var DBU=FB?String(CFG.databaseURL).replace(/\/+$/,''):'';
 var ID_RE=/^[A-Za-z0-9_-]{6,64}$/;
 var fbTok={id:'',exp:0,rt:'',uid:''},fbPin=null;
-try{fbTok.rt=localStorage.getItem('cv_rt')||''}catch(e){}
+try{localStorage.removeItem('cv_rt');fbTok.rt=sessionStorage.getItem('cv_rt')||''}catch(e){}
 function jr(status,obj){return {ok:status>=200&&status<300,status:status,json:function(){return Promise.resolve(obj)}}}
 function idURL(){return (CFG&&CFG.identityURL)||'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword'}
 function tokURL(){return (CFG&&CFG.tokenURL)||'https://securetoken.googleapis.com/v1/token'}
@@ -448,8 +448,8 @@ async function fbLogin(k){
   var j={};try{j=await r.json()}catch(e){}
   if(!r.ok||!j.idToken){var le=new Error('login');le.code=(j.error&&j.error.message)||'';throw le}
   fbTok={id:j.idToken,exp:Date.now()+(parseInt(j.expiresIn,10)||3600)*1000,rt:j.refreshToken||'',uid:j.localId||''};
-  try{localStorage.setItem('cv_rt',fbTok.rt);localStorage.setItem('cv_email',email)}catch(e){}}
-function fbSignOut(){fbTok={id:'',exp:0,rt:'',uid:''};fbPin=null;try{localStorage.removeItem('cv_rt')}catch(e){}}
+  try{sessionStorage.setItem('cv_rt',fbTok.rt)}catch(e){}}
+function fbSignOut(){fbTok={id:'',exp:0,rt:'',uid:''};fbPin=null;try{sessionStorage.removeItem('cv_rt');localStorage.removeItem('cv_rt')}catch(e){}}
 /* returns '' when there is no session; throws on a network error so the caller does not log the organiser out */
 async function fbToken(){
   if(fbTok.id&&Date.now()<fbTok.exp-60000)return fbTok.id;
@@ -458,7 +458,7 @@ async function fbToken(){
   var j={};try{j=await r.json()}catch(e){}
   if(!r.ok||!j.id_token){if(r.status>=400&&r.status<500){fbSignOut();return ''}throw new Error('refresh')}
   fbTok.id=j.id_token;fbTok.exp=Date.now()+(parseInt(j.expires_in,10)||3600)*1000;
-  if(j.refresh_token){fbTok.rt=j.refresh_token;try{localStorage.setItem('cv_rt',fbTok.rt)}catch(e){}}
+  if(j.refresh_token){fbTok.rt=j.refresh_token;try{sessionStorage.setItem('cv_rt',fbTok.rt)}catch(e){}}
   return fbTok.id}
 async function dbReq(method,path,body,tok){
   var u=DBU+path+'.json'+(tok?'?auth='+encodeURIComponent(tok):'');
