@@ -669,7 +669,7 @@ VIEWS.gate=function(root){
   var em='';try{em=localStorage.getItem('cv_email')||''}catch(e){}
   root.innerHTML='<section class="vote"><div class="hero"><h1 class="title sm">ชุดในดวงใจ</h1></div><form class="panel stack" id="gf">'+
     (FB&&!CFG.adminEmail?'<div class="field"><label for="ge1">อีเมลผู้จัด</label><input id="ge1" type="email" autocomplete="username" value="'+esc(em)+'"></div>':'')+
-    '<div class="field"><label for="gk">'+(FB&&!CFG.adminEmail?'รหัสผ่านผู้จัด':'รหัสผู้จัด')+'</label><input id="gk" type="password"'+(FB&&CFG.adminEmail?' inputmode="numeric" maxlength="16"':'')+' autocomplete="current-password" placeholder="'+(FB?'':'ดูรหัสในหน้าต่างที่รันเซิร์ฟเวอร์')+'"></div><div class="msg" id="ge" role="alert" hidden></div><button class="plank p-yellow holes" type="submit">เข้าห้องผู้จัด</button></form></section>';
+    '<div class="field"><label for="gk">'+(FB&&!CFG.adminEmail?'รหัสผ่านผู้จัด':'รหัสผู้จัด')+'</label><input id="gk" type="password"'+(FB&&CFG.adminEmail?' inputmode="numeric" maxlength="16"':'')+' autocomplete="current-password" placeholder="'+(FB?'':'ดูรหัสในหน้าต่างที่รันเซิร์ฟเวอร์')+'"></div><div class="msg" id="ge" role="alert" hidden></div><button class="plank p-yellow holes" type="submit">เข้าห้องผู้จัด</button><a class="btn alt" href="#vote" data-go="vote" style="align-self:center;text-decoration:none;display:inline-block">← กลับหน้าโหวต</a></form></section>';
   $('#gf',root).addEventListener('submit',async function(e){
     e.preventDefault();var v=$('#gk',root).value,er=$('#ge',root),k=v.trim();
     if(FB&&CFG.adminEmail){if(!k){er.hidden=false;er.textContent='กรอกรหัสผู้จัดก่อน';return}k=CFG.adminEmail+'\n'+k+(CFG.adminSuffix||'-chud')}
@@ -771,7 +771,7 @@ VIEWS.vote=function(root){
 VIEWS.admin=function(root){
   var autoT=null,armT=null,armed='';
   root.innerHTML='<section class="admin hide-num" id="adm">'+
-    '<header><h1 class="title sm">ห้องควบคุมผู้จัด</h1><p class="sub">คะแนนอยู่ที่หน้านี้ที่เดียว อย่าแชร์หน้านี้ขึ้นโปรเจคเตอร์</p></header>'+
+    '<header><a class="btn alt" href="#vote" data-go="vote" style="text-decoration:none;display:inline-block;margin-bottom:10px">← กลับหน้าโหวต</a><h1 class="title sm">ห้องควบคุมผู้จัด</h1><p class="sub">คะแนนอยู่ที่หน้านี้ที่เดียว อย่าแชร์หน้านี้ขึ้นโปรเจคเตอร์</p></header>'+
     '<div class="panel" id="gate" hidden><h2>หน้านี้สำหรับผู้จัดงาน</h2><p>ต้องเปิดด้วยบัญชีของผู้จัดที่มีสิทธิ์แก้ไขลิงก์นี้</p></div>'+
     '<div id="abody" class="admin" style="padding:0;gap:18px">'+
     '<section class="panel"><div class="row"><h2>ความคืบหน้า</h2><span class="chip" id="syncChip"><i></i><span></span></span></div><div class="grid2" id="roles"></div><p id="loadnote" class="sub" hidden></p></section>'+
